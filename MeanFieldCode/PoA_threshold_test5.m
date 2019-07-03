@@ -7,7 +7,7 @@ lambda = 6;
 mu = 4; % local service rate
 c = 10; %cost efficient
 %k = .01:.01:100;
-k=.01:1:10000;
+k=.01:.01:10000;
 priceOfAnarchy = zeros(1, length(k));
 priceOfAnarchy_cont = zeros(1, length(k));
 priceOfAnarchy_cont_lower = zeros(1, length(k));
@@ -16,7 +16,7 @@ B_g = zeros(1, length(k));
 B_s = zeros(1, length(k));
 piBs = zeros(1, length(k));
 piBg = zeros(1, length(k));
-gap = zeros(1, length(k));
+ratio = zeros(1, length(k));
 
 for i = 1 : length(k)
     if rho == 1
@@ -159,17 +159,17 @@ for i = 1 : length(k)
     priceOfAnarchy(i) = 1 - min(T_g(1:2))/(T_u(1));
     priceOfAnarchy_cont(i) = 1 - T_g(3)/T_u(1);
     priceOfAnarchy_cont_lower(i) = 1 - min(T_g)/(T_u(3));
-    gap(i) = T_g(1) / T_g(2);
+    ratio(i) = T_g(1) / T_g(2);
 end
 
 figure(1)
-plot(k, gap, 'r','LineWidth',2,'MarkerSize',2)
+plot(k, ratio, 'r','LineWidth',2,'MarkerSize',2)
 xlabel('k','FontSize',18)
 ylabel('f(ceiling(x)) / f(floor(x))','FontSize',18)
 title('threshold: \rho = ' + string(rho) + ', c = ' + string(c) + ', \lambda = ' + string(lambda) + ', \mu =' + string(mu),'FontSize',14)
 set(gca,'fontsize',15)
+axis([0 1e4 0.95 1.05])
 grid on
-hold
 
 % figure(1)
 % plot(k, priceOfAnarchy, 'r','LineWidth',2,'MarkerSize',2)
