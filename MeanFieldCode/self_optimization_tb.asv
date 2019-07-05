@@ -1,15 +1,13 @@
 clear
-lambda = 4;
+lambda = 2;
 mu = 4; % local service rate
 c = 10; %cost efficient
 %k = .01:.01:100;
-k=1:1:1e6;
+k=1:1:1e7;
 rho = lambda / mu;
 B_s = zeros(1, length(k));
 piBs = zeros(1, length(k));
 ratio = zeros(1, length(k));
-floor_count  = 0;
-ceiling_count = 0;
 
 for i = 1 : length(k)
     if rho == 1
@@ -53,13 +51,7 @@ for i = 1 : length(k)
             E_Qs = Bs./ 2;
         end
         T_u(1) =  E_Qs(2)./lambda + k(i).*lambda^2 .* pi_Bs(1).^2 .* pi_Bs(2) ./ c^2;  % everyone else floor, one user ceiling
-        T_u(2) =  E_Qs(1)./lambda + k(i).*lambda^2 .* pi_Bs(1).^2 .* pi_Bs(1) ./ c^2;  % everyone else floor, one user also floor
-        
-        if T_u(1) > T_u(2) %using floor
-            floor_count = floor_count + 1;
-        else
-            ceiling_count = ceiling_count + 1;
-        end
+        T_u(2) =  E_Qs(1)./lambda + k(i).*lambda^2 .* pi_Bs(1).^2 .* pi_Bs(1) ./ c^2;  % everyone else floor, one user also floor   
     end
     
     % 1 -- floor
@@ -70,7 +62,7 @@ for i = 1 : length(k)
 end
 
 
-figure(2)
+figure(1)
 plot(k, ratio, 'r','LineWidth',2,'MarkerSize',2)
 xlabel('k','FontSize',18)
 ylabel('f(ceiling(x)) / f(floor(x))','FontSize',18)

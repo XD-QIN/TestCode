@@ -3,11 +3,11 @@
 % thrshold based discrete B
 % plot pi_B, B, PoA, 
 clear
-lambda = 6;
+lambda = 2;
 mu = 4; % local service rate
 c = 10; %cost efficient
 %k = .01:.01:100;
-k=1:1:1e7;
+k=.01:1:100000;
 priceOfAnarchy = zeros(1, length(k));
 priceOfAnarchy_cont = zeros(1, length(k));
 priceOfAnarchy_cont_lower = zeros(1, length(k));
@@ -171,13 +171,13 @@ set(gca,'fontsize',15)
 %axis([0 1e4 0.95 1.05])
 grid on
 
-% figure(22)
-% plot(k, B_g, 'k','LineWidth',2,'MarkerSize',2)
-% xlabel('k','FontSize',18)
-% ylabel('Bg','FontSize',18)
-% title('overall optimization Bg: \rho = ' + string(rho),'FontSize',14)
-% set(gca,'fontsize',15)
-% grid on
+figure(22)
+plot(k, B_g, 'k','LineWidth',2,'MarkerSize',2)
+xlabel('k','FontSize',18)
+ylabel('Bg','FontSize',18)
+title('overall optimization Bg: \rho = ' + string(rho),'FontSize',14)
+set(gca,'fontsize',15)
+grid on
 
 % figure(1)
 % plot(k, priceOfAnarchy, 'r','LineWidth',2,'MarkerSize',2)

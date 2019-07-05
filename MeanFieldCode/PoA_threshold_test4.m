@@ -3,18 +3,20 @@
 % thrshold based discrete B
 % plot pi_B, B, PoA, 
 clear
-lambda = 8;
+lambda = 5;
 mu = 4; % local service rate
 c = 10; %cost efficient
 %k = .01:.01:100;
-k=.01:.01:10;
+k=.01:1:100000;
 priceOfAnarchy = zeros(1, length(k));
 priceOfAnarchy_cont = zeros(1, length(k));
+priceOfAnarchy_cont_lower = zeros(1, length(k));
 rho = lambda / mu;
 B_g = zeros(1, length(k));
 B_s = zeros(1, length(k));
 piBs = zeros(1, length(k));
 piBg = zeros(1, length(k));
+gap = zeros(1, length(k));
 
 for i = 1 : length(k)
     if rho == 1
@@ -154,30 +156,39 @@ for i = 1 : length(k)
     end
     
 %%%%%%%%%%%% price of anarchy %%%%%%%%%%%%%%%%%
-    priceOfAnarchy(i) = 1 - min(T_g(1:2))/min(T_u(1:2));
-    priceOfAnarchy_cont(i) = 1 - T_g(3)/T_u(3);
+    priceOfAnarchy(i) = 1 - min(T_g(1:2))/(T_u(1));
+    priceOfAnarchy_cont(i) = 1 - T_g(3)/T_u(1);
+    priceOfAnarchy_cont_lower(i) = 1 - min(T_g)/(T_u(3));
+    gap(i) = T_g(1) - T_g(2);
 end
 
 figure(1)
 plot(k, priceOfAnarchy, 'r','LineWidth',2,'MarkerSize',2)
 hold on
+% xlabel('k','FontSize',18)
+% ylabel('Price Of Anarchy','FontSize',18)
+% title('threshold: \rho = ' + string(rho) + ', c = ' + string(c) + ', \lambda = ' + string(lambda) + ', \mu =' + string(mu),'FontSize',14)
+% set(gca,'fontsize',15)
+% grid on
+% figure(2)
 plot(k, priceOfAnarchy_cont, 'b','LineWidth',2,'MarkerSize',2)
-%plot(W/3,0, 'b-o','LineWidth',2,'MarkerSize',8)
+% plot(k, priceOfAnarchy_cont_lower, 'k','LineWidth',2,'MarkerSize',2)
+% plot(W/3,0, 'b-o','LineWidth',2,'MarkerSize',8)
 %plot(W,0, 'r-s','LineWidth',2,'MarkerSize',8)
-legend({'discrete B', 'continuous B'}, 'FontSize',14)
+%legend({'discrete B', 'continuous B'}, 'FontSize',14)
 xlabel('k','FontSize',18)
-ylabel('Price Of Anarchy','FontSize',18)
+ylabel('Price Of Anarchy-upper bound','FontSize',18)
 title('threshold: \rho = ' + string(rho) + ', c = ' + string(c) + ', \lambda = ' + string(lambda) + ', \mu =' + string(mu),'FontSize',14)
 set(gca,'fontsize',15)
 grid on
 
-figure(2)
-plot(k, B_g-B_s, 'b','LineWidth',2,'MarkerSize',2)
-xlabel('k','FontSize',18)
-ylabel('B_g-B_s','FontSize',18)
-title('B_g - B_s','FontSize',14)
-set(gca,'fontsize',15)
-grid on
+% figure(2)
+% plot(k, B_g-B_s, 'b','LineWidth',2,'MarkerSize',2)
+% xlabel('k','FontSize',18)
+% ylabel('B_g-B_s','FontSize',18)
+% title('B_g - B_s','FontSize',14)
+% set(gca,'fontsize',15)
+% grid on
 
 figure(3)
 plot(k, B_g, 'k','LineWidth',2,'MarkerSize',2)
@@ -186,23 +197,23 @@ ylabel('Bg','FontSize',18)
 title('overall optimization Bg','FontSize',14)
 set(gca,'fontsize',15)
 grid on
-
-figure(4)
-plot(k, B_s, 'r','LineWidth',2,'MarkerSize',2)
-xlabel('k','FontSize',18)
-ylabel('Bs','FontSize',18)
-title('self-optimization Bs','FontSize',14)
-set(gca,'fontsize',15)
-grid on
-
-figure(5)
-plot(k, piBs, 'r','LineWidth',2,'MarkerSize',2)
-xlabel('k','FontSize',18)
-ylabel('\pi_B','FontSize',18)
-title('self-optimization \pi_B','FontSize',14)
-set(gca,'fontsize',15)
-grid on
-
+% 
+% figure(4)
+% plot(k, B_s, 'r','LineWidth',2,'MarkerSize',2)
+% xlabel('k','FontSize',18)
+% ylabel('Bs','FontSize',18)
+% title('self-optimization Bs','FontSize',14)
+% set(gca,'fontsize',15)
+% grid on
+% 
+% figure(5)
+% plot(k, piBs, 'r','LineWidth',2,'MarkerSize',2)
+% xlabel('k','FontSize',18)
+% ylabel('\pi_B','FontSize',18)
+% title('self-optimization \pi_B','FontSize',14)
+% set(gca,'fontsize',15)
+% grid on
+% 
 figure(6)
 plot(k, piBg, 'b','LineWidth',2,'MarkerSize',2)
 xlabel('k','FontSize',18)

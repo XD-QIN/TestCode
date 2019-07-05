@@ -2,8 +2,8 @@
 % self-optimiation vs overall
 % thrshold based continuous B
 clear
-lambda = 7;
-mu = 1; % local service rate
+lambda = 5;
+mu = 4; % local service rate
 c = 10; %cost efficient
 k = .01:.01:10;
 priceOfAnarchy = zeros(1, length(k));
@@ -15,12 +15,12 @@ for i = 1 : length(k)
     else
         W = rho/(1-rho) + rho/log(rho);
     end
-    if k(i) < W/3
+    if k(i)*lambda^3/c^2 < W/3
         % self-optimization Bs = 0
         T_u = k(i) * lambda^2/c^2;
         % overall B_g = 0
         T_g = k(i) * lambda^2/c^2;
-    elseif (k(i) >= W/3) && (k(i) < W)
+    elseif (k(i)*lambda^3/c^2 >= W/3) && (k(i)*lambda^3/c^2 < W)
         % self-optimization  Bs = 0
         T_u = k(i) * lambda^2/c^2;
         % overall optimization

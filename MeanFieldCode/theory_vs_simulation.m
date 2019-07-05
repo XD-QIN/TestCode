@@ -35,8 +35,10 @@ for j = 1 : length(lambda)
     for t = 1 : T-1
         u = rand();
         w = rand();
+        rho = lambda(j) / mu;
+        pi_B = (rho.^B - rho.^(B+1))./(1 - rho.^(B+1));
         if u < lambda(j)/(lambda(j) + mu)
-            if w < alpha
+            if w <= (1-pi_B)
                 Q_R(t+1,j) = Q_R(t,j) + 1;
             else
                 Q_R(t+1,j) = Q_R(t,j);
