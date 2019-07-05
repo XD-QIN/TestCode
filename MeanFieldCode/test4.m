@@ -2,7 +2,7 @@ clear
 lambda = 1;
 mu = 1;
 rho = lambda / mu;
-k = 10000;
+k = 100000;
 c = 10;
 
 % continuous B
@@ -34,10 +34,11 @@ for j = 1 : length(B_t_d)
     end
 end
 
-plot(B_t_d, B_opt_d, 'r-s', 'LineWidth', 2, 'MarkerSize', 8)
+plot(B_t_d, B_opt_d, 'rs', 'LineWidth', 2, 'MarkerSize', 8)
 hold on
 plot(B_t_c, B_opt_c, 'b', 'LineWidth', 2, 'MarkerSize', 2)
-plot(x_opt, x_opt, 'k-o',  'LineWidth', 2, 'MarkerSize', 8)
+plot(x_opt, x_opt, 'ko',  'LineWidth', 2, 'MarkerSize', 8)
+legend({'discrete B','continuous B','fixed point x'}, 'FontSize', 15)
 xlabel('B_t')
 ylabel('B_{opt}')
 grid on
