@@ -1,5 +1,5 @@
 clear
-lambda = 6;
+lambda = 7;
 mu = 4;
 rho = lambda / mu;
 k = 100;
@@ -31,11 +31,13 @@ for j = 1 : length(B_t_d)
    [z, index_d] = min(T_g_d);
    B_opt_d(j) = B_d(index_d);
 end
-figure(89757)
+figure(897582921)
 plot(B_t_c, B_opt_c, 'r', 'LineWidth', 2, 'MarkerSize', 2)
 hold on
-plot(x_opt, x_opt, 'k-o', 'LineWidth', 2, 'MarkerSize', 8)
 plot(B_t_d, B_opt_d, 'bs', 'LineWidth', 2, 'MarkerSize', 8)
+plot(x_opt, x_opt, 'ko', 'LineWidth', 2, 'MarkerSize', 8)
+legend({'continuous B','discrete B','fixed point x'}, 'FontSize', 15)
 xlabel('B_t')
 ylabel('B_{opt}')
+title('\rho = ' + string(rho), 'FontSize', 15)
 grid on 
