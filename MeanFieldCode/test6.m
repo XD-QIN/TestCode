@@ -17,8 +17,6 @@ for i  =  1 : length(B_t_c)
         k*lambda^2/c^2 .*((rho.^B_t_c(i)-rho.^(B_t_c(i)+1))./(1-rho.^(B_t_c(i)+1))).^2 .* (rho.^B - rho.^(B+1))./(1-rho.^(B+1)); % object function
     [y, index] = min(T_g);
     B_opt_c(i) = B(index);
-    
-   
 end
 
 % discrete
@@ -31,7 +29,7 @@ for j = 1 : length(B_t_d)
    [z, index_d] = min(T_g_d);
    B_opt_d(j) = B_d(index_d);
 end
-figure(897582921)
+figure(5829221)
 plot(B_t_c, B_opt_c, 'r', 'LineWidth', 2, 'MarkerSize', 2)
 hold on
 plot(B_t_d, B_opt_d, 'bs', 'LineWidth', 2, 'MarkerSize', 8)
