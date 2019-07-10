@@ -4,7 +4,7 @@ clear
 lambda = 4;
 mu = 4;
 rho = lambda / mu;
-k = 100;
+k = 450;
 c = 10;
 
 if rho ~= 1
@@ -42,6 +42,10 @@ for j = 1 : length(B_t_d)
     end
    [z, index_d] = min(T_u_d);
    B_opt_d(j) = B_d(index_d);
+   if B_t_d(j) == B_opt_d(j)
+       B_fixed = B_t_d(j);
+   end
+   
 end
 figure(5829221)
 plot(B_t_c, B_opt_c, 'r', 'LineWidth', 2, 'MarkerSize', 2)
@@ -49,7 +53,7 @@ hold on
 plot(B_t_d, B_opt_d, 'bs', 'LineWidth', 2, 'MarkerSize', 8)
 plot(x_opt, x_opt, 'ko', 'LineWidth', 2, 'MarkerSize', 8)
 legend({'continuous B','discrete B','fixed point x'}, 'FontSize', 15)
-xlabel('B_t')
-ylabel('B_{opt}')
-title('\rho = ' + string(rho), 'FontSize', 15)
+xlabel('given B_t', 'FontSize', 15)
+ylabel('the best response B_{opt}','FontSize', 15)
+title('\rho = ' + string(rho) + ', k = ' + string(k) + ', c = ' + string(c), 'FontSize', 15)
 grid on 

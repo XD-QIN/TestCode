@@ -1,9 +1,10 @@
 clear
-lambda = 4;
+lambda = 5;
 mu = 4;
 rho = lambda / mu;
 k = 0.8 : .1 : 1000;
 c = 10;
+k_example = 450;
 
 v1 = zeros(1, length(k));
 v2 = zeros(1, length(k));
@@ -31,7 +32,8 @@ plot(k, v1, 'r','LineWidth',2,'MarkerSize',2)
 hold on
 plot(k, v2, 'b','LineWidth',2,'MarkerSize',2)
 plot(k, k.*lambda^3./c^2, 'k','LineWidth',2,'MarkerSize',2)
+plot(k_example, k_example.*lambda^3./c^2,'k-o','LineWidth',2,'MarkerSize',8)
 legend('V_1(x)','V_2(x)', 'k\lambda^3/c^2')
-title('\rho = ' + string(rho) + ', c = ' + string(c), 'FontSize', 15)
+title('\rho = ' + string(rho) + ', c = ' + string(c) + ', k_{example} = ' + string(k_example), 'FontSize', 15)
 xlabel('k')
 ylabel('V_1(x) & V_2(x)')
