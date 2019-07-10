@@ -1,8 +1,8 @@
 clear
-lambda = 2;
+lambda = 4;
 mu = 4;
 rho = lambda / mu;
-k = 0.8 : .1 : 10000;
+k = 0.8 : .1 : 1000;
 c = 10;
 
 v1 = zeros(1, length(k));
@@ -30,7 +30,8 @@ figure(11920)
 plot(k, v1, 'r','LineWidth',2,'MarkerSize',2)
 hold on
 plot(k, v2, 'b','LineWidth',2,'MarkerSize',2)
-legend('V_1(x)','V_2(x)')
+plot(k, k.*lambda^3./c^2, 'k','LineWidth',2,'MarkerSize',2)
+legend('V_1(x)','V_2(x)', 'k\lambda^3/c^2')
 title('\rho = ' + string(rho) + ', c = ' + string(c), 'FontSize', 15)
 xlabel('k')
 ylabel('V_1(x) & V_2(x)')
