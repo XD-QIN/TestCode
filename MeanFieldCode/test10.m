@@ -6,8 +6,8 @@ k = 0.8 : .1 : 10;
 c = 10;
 
 x_opt = (2.*k.*lambda^3./c^2).^(1/4) - 1;
-% x1 = floor(x_opt);
-% x2 = ceil(x_opt);
+x1 = floor(x_opt);
+x2 = ceil(x_opt);
 v1 = (x1+1).^3 .*(x1+2)./2;
 v2 = x2.*(x2+1).^3./2;
 
