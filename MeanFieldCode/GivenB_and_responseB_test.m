@@ -1,10 +1,10 @@
 % self-optimization 
 % relation of B-tilde and B* test
 clear
-lambda = 4;
+lambda = 6;
 mu = 4;
 rho = lambda / mu;
-k = 450;
+k = 150;
 c = 10;
 
 if rho ~= 1
@@ -14,14 +14,15 @@ else
     x_opt = (2*k*lambda^3/c^2)^(1/4) - 1;
 end
 
-B_t_c = 0 : .1 : 10;
-B =  0 : .01 : 150;
+B_t_c = 0 : .1 : 10; %given B
+B =  0 : .01 : 150; % response B
 B_opt_c = zeros(1 , length(B_t_c));
 for i  =  1 : length(B_t_c)
     % continuous
     if rho ~= 1
         T_u = (1/lambda).* ((B+1)./(rho.^(B+1)-1)+B+1/(1-rho)) + ...
-            k*lambda^2/c^2 .*((rho.^B_t_c(i)-rho.^(B_t_c(i)+1))./(1-rho.^(B_t_c(i)+1))).^2 .* (rho.^B - rho.^(B+1))./(1-rho.^(B+1)); % object function
+            k*lambda^2/c^2 .*((rho.^B_t_c(i)-rho.^(B_t_c(i)+1))./(1-rho.^(B_t_c(i)+1))).^2 .*...
+            (rho.^B - rho.^(B+1))./(1-rho.^(B+1)); % object function
     else
         T_u = (1/lambda).* B./2 + k*lambda^2/c^2 .*(1./ (B_t_c(i) + 1)).^2 .* (1./(B+1));
     end
@@ -30,13 +31,14 @@ for i  =  1 : length(B_t_c)
 end
 
 % discrete
-B_t_d = 0 : 1 : 10;
-B_d = 0 : 1 : 150;
+B_t_d = 0 : 1 : 10; % given B
+B_d = 0 : 1 : 150; % response B
 B_opt_d = zeros(1, length(B_t_d));
 for j = 1 : length(B_t_d)
     if rho ~= 1
     T_u_d = (1/lambda).* ((B_d+1)./(rho.^(B_d+1)-1)+B_d+1/(1-rho)) + ...
-        k*lambda^2/c^2 .*((rho.^B_t_d(j)-rho.^(B_t_d(j)+1))./(1-rho.^(B_t_d(j)+1))).^2 .* (rho.^B_d - rho.^(B_d+1))./(1-rho.^(B_d+1));
+        k*lambda^2/c^2 .*((rho.^B_t_d(j)-rho.^(B_t_d(j)+1))./(1-rho.^(B_t_d(j)+1))).^2 .* ...
+        (rho.^B_d - rho.^(B_d+1))./(1-rho.^(B_d+1));
     else
         T_u_d = (1/lambda).* B_d./2 + k*lambda^2/c^2 .*(1./ (B_t_d(j) + 1)).^2 .* (1./(B_d+1));
     end

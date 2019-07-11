@@ -1,10 +1,10 @@
 clear
-lambda = 5;
+lambda = 4;
 mu = 4;
 rho = lambda / mu;
-k = 0.8 : .1 : 1000;
+k = 0.1 : .1 : 300;
 c = 10;
-k_example = 450;
+k_example = 106;
 
 v1 = zeros(1, length(k));
 v2 = zeros(1, length(k));
@@ -21,8 +21,8 @@ for i = 1 : length(k)
         x_opt = fzero(myfun1, [-0.9 200]);
         x1 = floor(x_opt);
         x2 = ceil(x_opt);
-        v1(i) = (1 - rho.^(x1+1)).*(x1+1-(x1+2).*rho+rho.^(x1+2))./(rho.^(2.*x1-1) .* (1-rho)^4);
-        v2(i) = (1 - rho.^(x2+1)).*(x2 -(x2+1).*rho+rho.^(x2+1))./(rho.^(2.*x1-1) .* (1-rho)^4);
+        v1(i) = (1 - rho.^(x1+1)).^2.*(x1+1-(x1+2).*rho+rho.^(x1+2))./(rho.^(2.*x1-1) .* (1-rho)^4);
+        v2(i) = (1 - rho.^(x2+1)).^2.*(x2 -(x2+1).*rho+rho.^(x2+1))./(rho.^(2.*x2-1) .* (1-rho)^4);
     end
 end
 
@@ -37,3 +37,4 @@ legend('V_1(x)','V_2(x)', 'k\lambda^3/c^2')
 title('\rho = ' + string(rho) + ', c = ' + string(c) + ', k_{example} = ' + string(k_example), 'FontSize', 15)
 xlabel('k')
 ylabel('V_1(x) & V_2(x)')
+grid on
