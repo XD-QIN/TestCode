@@ -4,10 +4,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear
-lambda = 6;
+lambda = 4;
 mu = 4;
 rho = lambda / mu;
-k = 0.1 : .1 : 500;
+k = 0.1 : .1 : 1200;
 c = 10;
 count  = 0;
 
@@ -36,14 +36,14 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % find the floor start index and end index 
 for j = 1 : length(v1)
-    if (x1(j) == 3)
+    if (x1(j) == 4)
         index_start_floor = j;
         break
     end
 end
 
 for j = 1 : length(v1)
-    if (x1(j) == 4)
+    if (x1(j) == 5)
         index_end_floor = j-1;
         break
     end
@@ -59,15 +59,15 @@ end
 % find the ceiling start index and end index
 
 for j = 1 : length(v2)
-    if (x2(j) == 4)
+    if (x2(j) == 5)
         index_start_ceil = j;
         break
     end
 end
 
 for j = 1 : length(v2)
-    if (x2(j) == 5)
-        index_end_ceil = j-1;
+    if (x2(j) == 6)
+        index_end_ceil = j-2;
         break
     end
 end
@@ -316,7 +316,7 @@ end
 figure(11)
 k_all = [k_floor , k_ceil];
 PoA_floor_and_ceil = [priceOfAnarchy_floor , priceOfAnarchy_ceil];
-plot(k_all, PoA_floor_and_ceil,'rs','LineWidth',2,'MarkerSize',2)
+plot(k_all, PoA_floor_and_ceil,'ro','LineWidth',2,'MarkerSize',1)
 
 figure(1)
 plot(k, v1, 'r','LineWidth',2,'MarkerSize',2)
@@ -332,7 +332,7 @@ ylabel('V_1(x) & V_2(x)')
 grid on
 
 figure(22222)
-plot(k_floor.*lambda^3./c^2, priceOfAnarchy_floor, 'r','LineWidth',2,'MarkerSize',2)
+plot(k_floor.*lambda^3./c^2, priceOfAnarchy_floor, 'r','LineWidth',2,'MarkerSize',1)
 hold on
 % plot(W/3, 0, 'b-o','LineWidth',2,'MarkerSize',2)
 % plot(W, 0, 'r-s','LineWidth',2,'MarkerSize',2)
@@ -341,6 +341,7 @@ ylabel('PoA','FontSize', 18)
 title('PoA (Floor NE): \rho = ' + string(rho) + ', c = ' + string(c) ...
     + ', \lambda = ' + string(lambda), 'FontSize', 18)
 set(gca,'FontSize',18)
+grid on
 
 figure(22322)
 plot(k_ceil.*lambda^3./c^2, priceOfAnarchy_ceil, 'b','LineWidth',2,'MarkerSize',2)

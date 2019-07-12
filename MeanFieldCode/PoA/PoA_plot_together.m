@@ -7,7 +7,7 @@ clear
 lambda = 4;
 mu = 4;
 rho = lambda / mu;
-k = 0.1 : .1 : 1e4;
+k = 0.1 : .1 : 1e6;
 c = 10;
 count  = 0;
 
@@ -34,6 +34,7 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
             v2(i) = (1 - rho.^(x2(i)+1)).^2.*(x2(i) -(x2(i)+1).*rho+rho.^(x2(i)+1))./(rho.^(2.*x2(i)-1) .* (1-rho)^4);
         end
     end
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % find the floor start index and end index
     for j = 1 : length(v1)
@@ -56,6 +57,7 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
             break
         end
     end
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % find the ceiling start index and end index
     
@@ -68,7 +70,7 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
     
     for j = 1 : length(v2)
         if (x2(j) == l+2)
-            index_end_ceil = j-1;
+            index_end_ceil = j-2;
             break
         end
     end
@@ -79,6 +81,7 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
             break
         end
     end
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     k_floor = k(index_start_floor : floor_end);
     k_ceil = k(ceil_start : index_end_ceil);
@@ -86,8 +89,10 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
     % price of anarchy
     % self-optimiation vs overall
     
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%% floor NE %%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     priceOfAnarchy_floor = zeros(1, length(k_floor));
-    
     
     for i = 1 : length(k_floor)
         if rho == 1
@@ -119,11 +124,9 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
                 B(2) = 0;
                 B(3) = 0;
             else
-                %B = floor(x_opt):floor(x_opt)+1;
-                B(1) = floor(x_opt);
-                B(2) = floor(x_opt) + 1;
-                B(3) = x_opt;
-                %B = x_opt;
+                B(1) = floor(x_opt);  % 1- floor
+                B(2) = floor(x_opt) + 1; % 2 - ceiling
+                B(3) = x_opt; % continous
             end
             if rho ~= 1
                 pi_0 = (1 - rho)./(1 - rho.^(B+1));
@@ -148,8 +151,6 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
                 Bs(2) = 0;
                 Bs(3) = 0;
             else
-                %Bs = floor(x_opt):floor(x_opt)+1;
-                %Bs = x_opt;
                 Bs(1) = floor(x_opt);
                 Bs(2) = floor(x_opt) + 1;
                 Bs(3) = x_opt;
@@ -181,8 +182,6 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
                 B(1) = floor(x_opt);
                 B(2) = floor(x_opt) + 1;
                 B(3) = x_opt;
-                %B = floor(x_opt):floor(x_opt)+1;
-                %B = x_opt;
             end
             if rho ~= 1
                 pi_0 = (1 - rho)./(1 - rho.^(B+1));
@@ -201,6 +200,9 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
         priceOfAnarchy_floor(i) = 1 - min(T_g(1:2))/(min(T_u(1)));
     end
     
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%% ceiling NE %%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     priceOfAnarchy_ceil = zeros(1, length(k_ceil));
     
     for i = 1 : length(k_ceil)
@@ -309,7 +311,7 @@ for l = 1 : 5 % l is the floor x^* and ceil x^*
             T_g  =  E_Q./lambda + k_ceil(i).*lambda^2 .* pi_B.^3 ./ c^2;
         end
         
-        %%%%%%%%%%%% price of anarchy - floor NE %%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%% price of anarchy - ceiling NE %%%%%%%%%%%%%%%%%
         %%% 1-floor, 2-ceil, 3-continuous
         priceOfAnarchy_ceil(i) = 1 - min(T_g(1:2))/(min(T_u(2)));
     end
