@@ -28,6 +28,7 @@ z = datachk(z);
 ax = newplot(ax);
 grid on
 title('Motion tracking: yaw (y angle)', 'FontSize', 14)
+annotation('textarrow',[0.6,0.45],[0.25, 0.35], 'LineWidth', 3,'String','initial view ', 'FontSize',14)
 xlabel('sin\theta_t', 'FontSize', 14)
 ylabel('cos\theta_t', 'FontSize', 14)
 zlabel('time slots', 'FontSize', 14)

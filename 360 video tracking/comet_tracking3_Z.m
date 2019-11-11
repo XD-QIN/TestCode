@@ -27,6 +27,7 @@ z = datachk(z);
 
 ax = newplot(ax);
 grid on
+annotation('textarrow',[0.6,0.45],[0.25, 0.35], 'LineWidth', 3,'String','initial view ', 'FontSize',14)
 title('Motion tracking: roll (z angle)', 'FontSize', 14)
 xlabel('sin\theta_t', 'FontSize', 14)
 ylabel('time slots', 'FontSize', 14)
