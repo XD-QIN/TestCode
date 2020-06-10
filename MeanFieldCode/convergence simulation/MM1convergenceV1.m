@@ -2,12 +2,14 @@ clear
 T = 1e6; % simulation time
 update_interval = 1e3;
 lambda = 6;%0 : 0.1 : 1.8; %arrival rate
-N = 5;
-% lambda = 0 : 0.1 : 1.9; there is a bug under this setup
+N = 3;
 mu = 4; % local service rate
-% B = 0:100;
-% B_user = [0, 1, 5];%randi([0, 5], 1, N);
 B_user = randi([0, 5], 1, N);
+k = 22;
+c = 10;
+count = 0;
+windows_size =  1;
+updateB_t = 0;
 rho = lambda/ mu;
 QueueLength = zeros(length(B_user), 1);
 TotalArrivalCount = zeros(length(B_user), 1);
@@ -19,13 +21,7 @@ avgQ = zeros(length(B_user), 1);
 avgQ_old = zeros(length(B_user), 1);
 pi_B_old = zeros(length(B_user), 1);
 LocalCount = zeros(length(B_user), 1);
-count = 0;
-k = 20;
-c = 10;
-windows_size =  1;
-updateB_t = 0;
 
-alpha = 1; %average weight
 cost = zeros(length(B_user), 1);
 cost_plus = zeros(length(B_user), 1);
 cost_minus = zeros(length(B_user), 1);
@@ -47,6 +43,7 @@ for t = 1 : T
         u = rand();
         if u <  lambda/( lambda +   mu) % arrival process
             TotalArrivalCount(i) = TotalArrivalCount(i) + 1;
+            % B
             if QueueLength(i) < B_user(i)
                 LocalCount(i) = LocalCount(i) + 1;
                 QueueLength(i) = QueueLength(i) + 1;
@@ -54,7 +51,7 @@ for t = 1 : T
                 NumberOfJobInGlobal(i) = NumberOfJobInGlobal(i) + 1;
                 GlobalCount(i) = GlobalCount(i) + 1;
             end
-            
+            % B + 1
             if QueueLength_plus(i) < B_user(i)+windows_size
                 LocalCount_plus(i) = LocalCount_plus(i) + 1;
                 QueueLength_plus(i) = QueueLength_plus(i) + 1;
@@ -62,7 +59,7 @@ for t = 1 : T
                 NumberOfJobInGlobal_plus(i) = NumberOfJobInGlobal_plus(i) + 1;
                 GlobalCount_plus(i) = GlobalCount_plus(i) + 1;
             end
-            
+            % B - 1
             if QueueLength_minus(i) < max(B_user(i)- windows_size, 0)
                 LocalCount_minus(i) = LocalCount_minus(i) + 1;
                 QueueLength_minus(i) = QueueLength_minus(i) + 1;
@@ -114,12 +111,12 @@ for t = 1 : T
 end
 
 figure(2)
-plot(time, B_track(:,1), 'b-o','LineWidth',2,'MarkerSize',5)
+plot(time, B_track(:,1), 'b-o','LineWidth',2,'MarkerSize',3)
 hold on
-plot(time, B_track(:,2), 'r-*','LineWidth',2,'MarkerSize',5)
-plot(time, B_track(:,3), 'k-+','LineWidth',2,'MarkerSize',5)
-plot(time, B_track(:,4), 'm->','LineWidth',2,'MarkerSize',5)
-plot(time, B_track(:,5), 'c-<','LineWidth',2,'MarkerSize',5)
+plot(time, B_track(:,2), 'r-*','LineWidth',2,'MarkerSize',3)
+plot(time, B_track(:,3), 'k-+','LineWidth',2,'MarkerSize',3)
+% plot(time, B_track(:,4), 'm->','LineWidth',2,'MarkerSize',3)
+% plot(time, B_track(:,5), 'c-<','LineWidth',2,'MarkerSize',3)
 xlabel('time','FontSize', 18)
 ylabel('Threshold','FontSize', 18)
 title('\rho = ' + string(rho) + ', c = ' + string(c) ...
