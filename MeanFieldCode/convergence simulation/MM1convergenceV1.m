@@ -1,10 +1,13 @@
 clear
-T = 1e8; % simulation time
+T = 1e6; % simulation time
+update_interval = 1e3;
 lambda = 6;%0 : 0.1 : 1.8; %arrival rate
+N = 5;
 % lambda = 0 : 0.1 : 1.9; there is a bug under this setup
 mu = 4; % local service rate
 % B = 0:100;
-B_user = [0, 1, 4];%randi([0, 100], 1, N);
+% B_user = [0, 1, 5];%randi([0, 5], 1, N);
+B_user = randi([0, 5], 1, N);
 rho = lambda/ mu;
 QueueLength = zeros(length(B_user), 1);
 TotalArrivalCount = zeros(length(B_user), 1);
@@ -16,14 +19,12 @@ avgQ = zeros(length(B_user), 1);
 avgQ_old = zeros(length(B_user), 1);
 pi_B_old = zeros(length(B_user), 1);
 LocalCount = zeros(length(B_user), 1);
-N = 3;
 count = 0;
-B_user = [1, 4, 5];%randi([0, 100], 1, N);
-k = 22;
+k = 20;
 c = 10;
 windows_size =  1;
 updateB_t = 0;
-update_interval = 1e5;
+
 alpha = 1; %average weight
 cost = zeros(length(B_user), 1);
 cost_plus = zeros(length(B_user), 1);
@@ -91,18 +92,18 @@ for t = 1 : T
     
     if t - updateB_t == update_interval
         sum_pi =  sum(pi_B);  
-        for n = 1: N
+        for n = 1: length(B_user)
             B_track(count+1,n) = B_user(n);
-            cost(n) = avgQ(n)/lambda + k * ( (lambda * sum_pi)/ (N * c))^2 * pi_B(n);
-            cost_plus(n) = avgQ_plus(n)/lambda + k * ((lambda * (sum_pi)) / (N * c))^2 * pi_B_plus(n);
-            cost_minus(n) = avgQ_minus(n)/lambda + k * ((lambda * (sum_pi)) / (N * c))^2 * pi_B_minus(n);
+            cost(n) = avgQ(n)/lambda + k * ((lambda * sum_pi)/ (length(B_user) * c))^2 * pi_B(n);
+            cost_plus(n) = avgQ_plus(n)/lambda + k * ((lambda * (sum_pi)) / (length(B_user) * c))^2 * pi_B_plus(n);
+            cost_minus(n) = avgQ_minus(n)/lambda + k * ((lambda * (sum_pi)) / (length(B_user) * c))^2 * pi_B_minus(n);
             if cost_minus(n) > cost_plus(n)
                 if cost_plus(n) < cost(n)
                     B_user(n) = B_user(n) + 1;
                 end
             else
                 if cost_minus(n) < cost(n)
-                    B_user(n) = B_user(n) - 1;
+                    B_user(n) = max(B_user(n) - 1, 0);
                 end
             end
         end
@@ -117,10 +118,12 @@ plot(time, B_track(:,1), 'b-o','LineWidth',2,'MarkerSize',5)
 hold on
 plot(time, B_track(:,2), 'r-*','LineWidth',2,'MarkerSize',5)
 plot(time, B_track(:,3), 'k-+','LineWidth',2,'MarkerSize',5)
+plot(time, B_track(:,4), 'm->','LineWidth',2,'MarkerSize',5)
+plot(time, B_track(:,5), 'c-<','LineWidth',2,'MarkerSize',5)
 xlabel('time','FontSize', 18)
 ylabel('Threshold','FontSize', 18)
 title('\rho = ' + string(rho) + ', c = ' + string(c) ...
     + ', \lambda = ' + string(lambda) + ', k = ' + string(k) , 'FontSize', 18)
-legend({'user 1', 'user 2', 'user 3'}, 'FontSize', 18)
+legend({'user 1', 'user 2', 'user 3', 'user 4', 'user 5'}, 'FontSize', 18)
 % set(gca,'FontSize',18)
 grid on
